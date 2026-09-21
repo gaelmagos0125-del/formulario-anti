@@ -187,7 +187,6 @@
 <body>
 
 <div class="form-container">
-    <!-- Reemplaza "tu-codigo-de-formulario" por el identificador real que te dio Formspree -->
     <form action="https://formspree.io/f/myezweez" method="POST" enctype="multipart/form-data">
 
         <!-- 1. TIPO DE TRAMITE -->
@@ -420,7 +419,6 @@
                 </div>
                 <div class="section-content" style="border-bottom:none; font-size: 10px;">
                     <span style="display:block; margin-bottom:6px; color:#555;">(Sube tus pruebas en PDF o imagen)</span>
-                    <!-- Campo de archivo actualizado y vinculado -->
                     <input type="file" name="pruebas_adjuntas" accept=".pdf, image/png, image/jpeg" style="font-size: 10px; width: 100%;">
                 </div>
             </div>
@@ -439,6 +437,34 @@
 
     </form>
 </div>
+
+<!-- Script de validación de archivos -->
+<script>
+document.querySelector('form').addEventListener('submit', function(event) {
+    const fileInput = document.querySelector('input[name="pruebas_adjuntas"]');
+    
+    // Verifica si el usuario seleccionó un archivo
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        
+        // 1. Validar el tamaño máximo (5 MB = 5 * 1024 * 1024 bytes)
+        const maxSize = 5 * 1024 * 1024; 
+        if (file.size > maxSize) {
+            alert('El archivo es demasiado pesado. El tamaño máximo permitido es de 5 MB.');
+            event.preventDefault(); // Cancela el envío del formulario
+            return;
+        }
+
+        // 2. Validar los tipos de archivo permitidos (PDF o imágenes)
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Formato de archivo no válido. Solo se permiten archivos PDF, PNG o JPEG.');
+            event.preventDefault(); // Cancela el envío del formulario
+            return;
+        }
+    }
+});
+</script>
 
 </body>
 </html>
